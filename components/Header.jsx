@@ -34,6 +34,7 @@ const Header = () => {
             >
               <Button
                 variant='outline'
+                className="cursor-pointer"
               >
                 <LayoutDashboard
                   size={18}
@@ -50,7 +51,7 @@ const Header = () => {
               
             >
               <Button
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 cursor-pointer"
               >
                 <PenBox
                   size={18}
@@ -67,7 +68,7 @@ const Header = () => {
           <SignedOut>
 
             <SignInButton forceRedirectUrl='/dashboard' >
-              <Button variant='outline'>Login</Button>
+              <Button variant='outline' className="cursor-pointer">Login</Button>
             </SignInButton>
           </SignedOut>
           <SignedIn>

@@ -45,16 +45,16 @@ const HeroSection = () => {
           <Link href="./dashboard">
             <Button
               size="lg"
-              className="px-8"
+              className="px-8 cursor-pointer"
             >
               Get Started
             </Button>
           </Link>
 
-          <Link href="./dashboard">
+          <Link href="./dashboard" >
             <Button
               size="lg"
-              className="px-8"
+              className="px-8 cursor-pointer"
               variant="outline"
             >
               Watch Demo
