@@ -1,5 +1,5 @@
-import React, { Suspense } from 'react'
 import DashboardPage from './page';
+import React, { Suspense } from 'react'
 import { BarLoader } from 'react-spinners'
 
 
