@@ -66,7 +66,7 @@ export type RecurringInterval = (typeof RecurringInterval)[keyof typeof Recurrin
 
 export const TransactionStatus: {
   PENDING: 'PENDING',
-  COMLETED: 'COMLETED',
+  COMPLETED: 'COMPLETED',
   FAILED: 'FAILED'
 };
 

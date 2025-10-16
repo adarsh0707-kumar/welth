@@ -63,7 +63,7 @@ model Transaction {
   recurringInterval RecurringInterval?
   nextRecurringDate DateTime?
   lastProcessed     DateTime?
-  status            TransactionStatus  @default(COMLETED)
+  status            TransactionStatus  @default(COMPLETED)
   userId            String
   user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   accountId         String
@@ -90,7 +90,7 @@ enum RecurringInterval {
 
 enum TransactionStatus {
   PENDING
-  COMLETED
+  COMPLETED
   FAILED
 }
 
