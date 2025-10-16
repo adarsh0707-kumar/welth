@@ -10,12 +10,13 @@ const serializeTransaction = (obj) => {
   if (obj.balance) {
     serialized.balance = obj.balance.toNumber();
   }
+  return serialized;
 }
 
 export async function createAccount(data) {
 
   try {
-    const { userId } = await auth;
+    const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
 
     const user = await db.user.findUnique({
@@ -46,7 +47,7 @@ export async function createAccount(data) {
     // if this account should be default, unset other default acoounts
 
     if (shouldBeDefault) {
-      awaitdb.account.updateMany({
+      await db.account.updateMany({
         where: { userId: user.id, isDefault: true },
         data: { isDefault: false },
       });
