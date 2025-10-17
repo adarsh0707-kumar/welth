@@ -1,15 +1,41 @@
 'use client'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { categoryColors } from '@/data/categories'
-import { format } from 'date-fns/format'
-import { ChevronDown, ChevronUp, Clock, MoreHorizontal, RefreshCcw } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
+import { format } from 'date-fns/format'
+import { useRouter } from 'next/navigation'
+import { Badge } from '@/components/ui/badge'
+
+import { Button } from '@/components/ui/button'
+import { categoryColors } from '@/data/categories'
+import { Checkbox } from '@/components/ui/checkbox'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead, 
+  TableHeader,
+  TableRow
+} from '@/components/ui/table'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from '@/components/ui/tooltip'
+import {
+  ChevronDown,
+  ChevronUp,
+  Clock,
+  MoreHorizontal,
+  RefreshCcw
+} from 'lucide-react'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
 
 const RECURRING_INTERVALS = {
   DAILY: "Daily",

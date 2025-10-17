@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { toast } from 'sonner'
 import React, { useEffect } from 'react'
 import useFeatch from '@/hooks/use-featch'
+
 import { Switch } from '@/components/ui/switch'
 import { updateDefaultAccount } from '@/action/accounts'
 import { ArrowDownRight, ArrowUpRight } from 'lucide-react'

@@ -1,8 +1,9 @@
 import "./globals.css";
-import {Inter } from "next/font/google";
+import { Toaster } from "sonner";
+import { Inter } from "next/font/google";
+
 import Header from "@/components/Header";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -1,9 +1,15 @@
+import Link from "next/link";
+import Image from "next/image";
 import HeroSection from "@/components/Hero";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { featuresData, howItWorksData, statsData, testimonialsData } from "@/data/landing";
-import Image from "next/image";
-import Link from "next/link";
+import {
+  featuresData,
+  howItWorksData,
+  statsData,
+  testimonialsData
+} from "@/data/landing";
 
 
 export default function Home() {

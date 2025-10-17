@@ -1,8 +1,8 @@
 'use client'
 import Link from 'next/link'
-import React, { useEffect, useRef } from 'react'
-import { Button } from './ui/button'
 import Image from 'next/image'
+import { Button } from './ui/button'
+import React, { useEffect, useRef } from 'react'
 
 const HeroSection = () => {
 
