@@ -107,10 +107,10 @@ export default function Home() {
                         alt={review.name}
                         width={40}
                         height={40}
-                        className="rounded-full mr-4"
+                        className="rounded-full"
                       />
 
-                      <div ml-4>
+                      <div className="ml-4">
                         <div className="font-semibold">
                           {review.name}
                         </div>
@@ -118,7 +118,6 @@ export default function Home() {
                           {review.role}
                         </div>
                       </div>
-                      
                     </div>
                     <p className="text-gray-600">{review.quote}</p>
                   </CardContent>
@@ -150,7 +149,6 @@ export default function Home() {
               Start Free Trial
             </Button>
           </Link>
-          
         </div>
       </section>
     </div>

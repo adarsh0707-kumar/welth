@@ -165,6 +165,7 @@ const TransactionTable = ({ transactions }) => {
     }
 
     deleteFn(selectedIds)
+    setSelectedIds([])
   }
 
   useEffect(() => {
@@ -245,7 +246,7 @@ const TransactionTable = ({ transactions }) => {
             )
           }
 
-          {(searchTerm || typeFilter || recurringFilter) && (
+          {(searchTerm || typeFilter || recurringFilter || setSelectedIds) && (
             <Button
               variant="outline"
               size="icon"
@@ -414,11 +415,11 @@ const TransactionTable = ({ transactions }) => {
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
                           className="text-destructive cursor-pointer"
-                        onClick={
-                          () => {
-                          deleteFn([transaction.id])
+                          onClick={
+                            () => {
+                              deleteFn([transaction.id])
+                            }
                           }
-                        }
                         >
                           Delete
                         </DropdownMenuItem>
