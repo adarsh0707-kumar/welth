@@ -104,72 +104,102 @@ export async function bulkDeleteTransactions(transactionIds) {
       throw new Error("User not found");
     }
 
+    console.log("Requested to delete:", transactionIds);
+
+    // First, verify all transactions belong to this user and get their details
     const transactions = await db.transaction.findMany({
       where: {
         id: { in: transactionIds },
         userId: user.id,
       },
+      include: {
+        account: true,
+      },
     });
 
-    console.log("Requested to delete:", transactionIds);
     console.log(
-      "Matched transactions:",
+      "Found transactions to delete:",
       transactions.map((t) => t.id)
     );
 
+    if (transactions.length === 0) {
+      console.log("No transactions found for this user");
+      return {
+        success: true,
+        deletedCount: 0,
+        message: "No transactions found to delete",
+      };
+    }
+
+    // Calculate balance changes for each account - CONVERT TO NUMBERS FIRST
     const accountBalanceChanges = transactions.reduce((acc, transaction) => {
+      // Convert Decimal.js objects to numbers
+      const amount = parseFloat(transaction.amount.toString());
+
       const change =
         transaction.type === "EXPENSE"
-          ? transaction.amount
-          : -transaction.amount;
+          ? amount // For expenses, we add back the amount
+          : -amount; // For income, we subtract the amount
 
-      acc[transaction.accountId] = (acc[transaction.accountId] || 0) + change;
+      const accountId = transaction.accountId;
+
+      // Initialize with 0 if not exists, then add the change
+      acc[accountId] = (acc[accountId] || 0) + change;
+
       return acc;
     }, {});
 
-    // Delete transactions and update account balance in a transaction
+    console.log("Account balance changes:", accountBalanceChanges);
 
-    const deletionResult = await db.$transaction(async (tx) => {
-      const del = await tx.transaction.deleteMany({
+    // Perform deletion and balance updates in a transaction
+    const result = await db.$transaction(async (tx) => {
+      // Delete only the transactions that belong to this user
+      const deletedTransactions = await tx.transaction.deleteMany({
         where: {
-          id: { in: transactionIds },
+          id: { in: transactions.map((t) => t.id) },
           userId: user.id,
         },
       });
 
-      console.log("deleteMany result:", del); // del.count (for newer Prisma) or a numberc
+      console.log("Deleted count:", deletedTransactions.count);
 
+      // Update account balances
       for (const [accountId, balanceChange] of Object.entries(
         accountBalanceChanges
       )) {
         await tx.account.update({
-          where: { id: accountId },
+          where: {
+            id: accountId,
+            userId: user.id,
+          },
           data: {
             balance: {
               increment: balanceChange,
             },
           },
         });
+        console.log(`Updated account ${accountId} by ${balanceChange}`);
       }
-      return del
+
+      return deletedTransactions;
     });
 
-    console.log("Final transaction delete result:", deletionResult);
+    console.log("Transaction completed successfully");
 
     revalidatePath("/dashboard");
     revalidatePath("/account/[id]");
 
-     // `deletionResult` might be an object with a `count` property (new Prisma) or number
-    const deletedCount = typeof deletionResult === "object" && "count" in deletionResult
-      ? deletionResult.count
-      : (deletionResult);
-
     return {
       success: true,
-      deletedCount,
+      deletedCount: result.count,
+      message: `Successfully deleted ${result.count} transactions`,
     };
   } catch (error) {
-     console.error("bulkDeleteTransactions error:", error);
-    return { success: false, error: error.message };
+    console.error("bulkDeleteTransactions error:", error);
+    return {
+      success: false,
+      error: error.message,
+      deletedCount: 0,
+    };
   }
 }
