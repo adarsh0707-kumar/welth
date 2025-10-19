@@ -22,12 +22,14 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
+
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger
 } from '@/components/ui/tooltip'
+
 import {
   ChevronDown,
   ChevronUp,
@@ -40,6 +42,7 @@ import {
   ChevronLeft,
   ChevronRight
 } from 'lucide-react'
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -48,6 +51,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+
 import { 
   Select,
   SelectContent,
@@ -78,7 +82,7 @@ const TransactionTable = ({ transactions }) => {
   
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
+  const [itemsPerPage] = useState(13);
 
   const {
     loading: deleteLoading,
@@ -513,4 +517,4 @@ const TransactionTable = ({ transactions }) => {
   )
 }
 
-export default TransactionTable
+export default TransactionTable;
