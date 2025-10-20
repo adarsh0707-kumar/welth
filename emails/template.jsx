@@ -49,7 +49,7 @@ export default function EmailTemplate({
 
 const styles = {
   body: {
-    backgroundColor: "#f6f9fc",
+    backgroundColor: "#dcebfa",
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     padding: "20px 0",
     margin: 0,
