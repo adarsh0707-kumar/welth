@@ -82,7 +82,7 @@ const TransactionTable = ({ transactions }) => {
   
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(13);
+  const [itemsPerPage] = useState(10);
 
   const {
     loading: deleteLoading,
