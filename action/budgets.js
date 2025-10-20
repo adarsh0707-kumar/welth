@@ -26,7 +26,7 @@ export async function getCurrentBudgets(accountId) {
     });
 
     const currentDate = new Date();
-    const startOfMonth = new Ddate(
+    const startOfMonth = new Date(
       currentDate.getFullYear(),
       currentDate.getMonth(),
       1
@@ -55,7 +55,7 @@ export async function getCurrentBudgets(accountId) {
 
 
     return {
-      budgets: budgets ? { ...budgets, amount: budgets.amount.tiNumber() } : null,
+      budgets: budgets ? { ...budgets, amount: budgets.amount.toNumber() } : null,
       currentExpenses: expenses._sum.amount 
       ? expenses._sum.amount.toNumber() 
       : 0,
