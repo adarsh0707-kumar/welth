@@ -17,6 +17,7 @@ import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+import ReciptScanner from './recipt-scanner'
 
 const AddTransactionForm = ({ accounts, categories }) => {
 
@@ -72,11 +73,17 @@ const AddTransactionForm = ({ accounts, categories }) => {
       router.push(`/account/${transactionResult.data.accountId}`);
       
     }
-  },[transactionResult, transactionLoading])
+  }, [transactionResult, transactionLoading])
+  
+  const handleScanComplete = (scannedData) => {
+    console.log(scannedData);
+  }
 
   return (
     <form className='space-y-6' onSubmit={handleSubmit(onSubmit)}>
       {/* AI Recipt Scanner */}
+
+      <ReciptScanner onScanComplete = {handleScanComplete}/>
 
       {/* Form */}
 
