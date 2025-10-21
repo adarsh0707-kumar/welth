@@ -155,8 +155,8 @@ export async function scanRecipt(file) {
           mimeType: file.type,
         },
 
-        prompt,
       },
+      prompt,
     ]);
 
     const response = await result.response;
@@ -184,7 +184,7 @@ export async function scanRecipt(file) {
 
   } catch (error) {
     console.error(error.message)
-    throw new Error("Failed to scan receipt" + error.message );
+    throw new Error("Failed to scan receipt" + error.message )
     
   }
 }
