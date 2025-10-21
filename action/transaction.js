@@ -1,6 +1,8 @@
 'use server';
 
+import aj from "@/lib/arcjet";
 import { db } from "@/lib/prisma";
+import { request } from "@arcjet/next";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 
@@ -37,6 +39,23 @@ export async function createTransaction(data) {
     if (!userId) throw new Error("Unauthorized");
 
     // Arcjet to add rate limiting here
+
+    const req = await request()
+
+    const decision = await aj.protect(req, {
+      userId,
+      requested: 1, // Specify number of tokens requested
+    })
+
+    if (decision.isDenied()) {
+      if (decision.reason.isRateLimit()) {
+        const { remaaining, reset } = decision.reason;
+        throw new Error(`Rate limit exceeded. Try again in ${Math.ceil(
+          (reset - Date.now()) / 1000
+        )} seconds.`);
+      }
+      throw new Error("Request denied");
+    }
 
     const user = await db.user.findUnique({
       where: { clerkUserId: userId },
