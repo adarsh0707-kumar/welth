@@ -10,10 +10,11 @@ import {
   SignedIn,
   SignedOut,
   SignInButton,
-  UserButton
+  UserButton,
 } from '@clerk/nextjs';
 
 const Header = async () => {
+  // const { user } = useUser();
 
   await checkUser();
   return (

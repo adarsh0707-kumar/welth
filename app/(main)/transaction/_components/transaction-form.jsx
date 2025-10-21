@@ -16,6 +16,7 @@ import { CalendarIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
 const AddTransactionForm = ({ accounts, categories }) => {
 
@@ -58,6 +59,7 @@ const AddTransactionForm = ({ accounts, categories }) => {
     const formData = {
       ...data,
       amount: parseFloat(data.amount),
+      date: data.date.toISOString(),
     };
 
     await transactionFn(formData);
@@ -67,7 +69,8 @@ const AddTransactionForm = ({ accounts, categories }) => {
     if (transactionResult?.success && !transactionLoading) {
       toast.success("Transaction added successfully");
       reset();
-      router.push(`/accounts/${transactionResult.data.accountId}`);
+      router.push(`/account/${transactionResult.data.accountId}`);
+      
     }
   },[transactionResult, transactionLoading])
 

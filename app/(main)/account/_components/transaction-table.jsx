@@ -317,6 +317,8 @@ const TransactionTable = ({ transactions }) => {
                   indeterminate={
                     paginatedTransactions.some(transaction => selectedIds.includes(transaction.id)) &&
                     !paginatedTransactions.every(transaction => selectedIds.includes(transaction.id))
+                      ? true
+                      : undefined
                   }
                 />
               </TableHead>

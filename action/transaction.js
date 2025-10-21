@@ -65,9 +65,13 @@ export async function createTransaction(data) {
       const newTransaction = await tx.transaction.create({
         data: {
           ...data,
+          category: data.category.toLowerCase(),
           userId: user.id,
-          nextRecurringDate: data.isRecurring && data.recurringInterval ? calculateNextRecurringDate(data.date, date.recurringInterval) : null,
-        }
+          nextRecurringDate:
+            data.isRecurring && data.recurringInterval
+              ? calculateNextRecurringDate(data.date, date.recurringInterval)
+              : null,
+        },
       });
 
       await tx.account.update({
