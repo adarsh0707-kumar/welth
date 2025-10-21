@@ -2,13 +2,8 @@ import { serve } from "inngest/next";
 import { inngest } from "@/lib/inngest/client";
 import { checkBudgetAlert } from "@/lib/inngest/functions";
 
-
-
-// Create an API that serves zero functions
+// Create the API handler with functions properly registered
 export const { GET, POST, PUT } = serve({
   client: inngest,
-  functions: [
-    /* your functions will be passed here later! */
-    checkBudgetAlert
-  ],
+  functions: [checkBudgetAlert],
 });

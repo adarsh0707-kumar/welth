@@ -170,6 +170,7 @@ const CreateAccountDrawer = ({ children }) => {
               />
 
             </div>
+            
             <div className='flex gap-4 pt-4'>
               <DrawerClose asChild>
                 <Button type="button" variant="outline" className="flex-1 cursor-pointer">

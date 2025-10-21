@@ -10,7 +10,7 @@ export const accountSchema = z.object({
 export const transactionSchema = z.object({
   amount: z.string().min(1, "Amount is required"),
   description: z.string().optional(),
-  date: z.string().min(1, "Date is required"),
+  date: z.date().min(1, "Date is required"),
   type: z.enum(["INCOME", "EXPENSE"]),
   accountId: z.string().min(1, "Account is required"),
   category: z.string().min(1, "Category is required"),
