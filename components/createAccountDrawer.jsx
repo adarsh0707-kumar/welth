@@ -8,7 +8,7 @@ import { Button } from './ui/button'
 import { Loader2 } from 'lucide-react'
 
 import { useForm } from 'react-hook-form'
-import useFeatch from '@/hooks/use-featch'
+import useFeatch from '@/hooks/use-fetch'
 import { accountSchema } from '@/app/lib/schema'
 import { createAccount } from '@/action/dashboard'
 import React, { useEffect, useState } from 'react'
@@ -59,7 +59,7 @@ const CreateAccountDrawer = ({ children }) => {
   } = useFeatch(createAccount)
 
   useEffect(() => {
-    
+
     if (newAccount && !createAccountLoading) {
       toast.success("Account created successfully");
       reset();
@@ -71,7 +71,7 @@ const CreateAccountDrawer = ({ children }) => {
     if (error) {
       toast.error(error.message || "Failed to create account")
     }
-  },[error])
+  }, [error])
 
   const onSubmit = async (data) => {
     await createAccountFn(data)

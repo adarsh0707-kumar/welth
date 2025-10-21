@@ -1,7 +1,7 @@
 'use client'
 import { toast } from 'sonner'
 import { format } from 'date-fns/format'
-import useFeatch from '@/hooks/use-featch'
+import useFeatch from '@/hooks/use-fetch'
 import { BarLoader } from 'react-spinners'
 
 import { useRouter } from 'next/navigation'
@@ -52,12 +52,12 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 
-import { 
+import {
   Select,
   SelectContent,
-  SelectItem, 
+  SelectItem,
   SelectTrigger,
-  SelectValue 
+  SelectValue
 } from '@/components/ui/select'
 
 const RECURRING_INTERVALS = {
@@ -79,7 +79,7 @@ const TransactionTable = ({ transactions }) => {
   const [searchTerm, setSerchTerm] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
   const [recurringFilter, setRecurringFilter] = useState("");
-  
+
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
@@ -96,7 +96,7 @@ const TransactionTable = ({ transactions }) => {
     // Apply search filter
     if (searchTerm) {
       const searchLower = searchTerm.toLowerCase();
-      result = result.filter((transaction) => 
+      result = result.filter((transaction) =>
         transaction.description?.toLowerCase().includes(searchLower)
       )
     }
@@ -168,10 +168,10 @@ const TransactionTable = ({ transactions }) => {
   const handleSelectAll = () => {
     // Only select visible items on current page
     const currentPageIds = paginatedTransactions.map((t) => t.id);
-    setSelectedIds(current => 
-      current.length === currentPageIds.length ? 
-      current.filter(id => !currentPageIds.includes(id)) : 
-      [...new Set([...current, ...currentPageIds])]
+    setSelectedIds(current =>
+      current.length === currentPageIds.length ?
+        current.filter(id => !currentPageIds.includes(id)) :
+        [...new Set([...current, ...currentPageIds])]
     )
   }
 
@@ -207,19 +207,19 @@ const TransactionTable = ({ transactions }) => {
   const getPageNumbers = () => {
     const pageNumbers = [];
     const maxVisiblePages = 5;
-    
+
     let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
     let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-    
+
     // Adjust start page if we're near the end
     if (endPage - startPage + 1 < maxVisiblePages) {
       startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
-    
+
     for (let i = startPage; i <= endPage; i++) {
       pageNumbers.push(i);
     }
-    
+
     return pageNumbers;
   };
 
@@ -232,7 +232,7 @@ const TransactionTable = ({ transactions }) => {
           color='#9333ea'
         />
       )}
-      
+
       {/* Filters */}
       <div className='flex flex-col sm:flex-row gap-2'>
         <div className='relative flex-1'>
@@ -272,7 +272,7 @@ const TransactionTable = ({ transactions }) => {
           {selectedIds.length > 0 && (
             <div className='flex items-center gap-2'>
               <Button
-                variant="destructive" 
+                variant="destructive"
                 className="cursor-pointer"
                 size="sm"
                 onClick={handleBulkDelete}
@@ -311,7 +311,7 @@ const TransactionTable = ({ transactions }) => {
                 <Checkbox
                   onCheckedChange={handleSelectAll}
                   checked={
-                    paginatedTransactions.length > 0 && 
+                    paginatedTransactions.length > 0 &&
                     paginatedTransactions.every(transaction => selectedIds.includes(transaction.id))
                   }
                   indeterminate={
@@ -384,7 +384,7 @@ const TransactionTable = ({ transactions }) => {
                   </TableCell>
                   <TableCell>{transaction.description}</TableCell>
                   <TableCell className="capitalize">
-                    <span 
+                    <span
                       style={{
                         background: categoryColors[transaction.category],
                       }}
@@ -484,7 +484,7 @@ const TransactionTable = ({ transactions }) => {
               <ChevronLeft className="h-4 w-4" />
               Previous
             </Button>
-            
+
             {/* Page Numbers */}
             <div className="flex space-x-1">
               {getPageNumbers().map((page) => (

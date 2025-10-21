@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { toast } from 'sonner'
 import React, { useEffect } from 'react'
-import useFeatch from '@/hooks/use-featch'
+import useFeatch from '@/hooks/use-fetch'
 
 import { Switch } from '@/components/ui/switch'
 import { updateDefaultAccount } from '@/action/accounts'
@@ -41,8 +41,8 @@ const AccountCard = ({ account }) => {
     if (updatedAccount?.success) {
       toast.success("Default account updated successfully");
     }
-  },[updatedAccount, updateDefaultLoading])
-    
+  }, [updatedAccount, updateDefaultLoading])
+
   useEffect(() => {
     if (error) {
       toast.error(error.message || "Failed to update default account");

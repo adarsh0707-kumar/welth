@@ -11,7 +11,7 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
-import useFeatch from '@/hooks/use-featch';
+import useFeatch from '@/hooks/use-fetch';
 import { updateBudget } from '@/action/budgets';
 import { toast } from 'sonner';
 import { Progress } from '@/components/ui/progress';
@@ -152,8 +152,7 @@ const BudgetProgress = ({ initialBudget, currentExpenses, accountName }) => {
             <div className='space-y-2'>
               <Progress
                 value={percentUsed}
-                extraStyles={`${
-                  percentUsed >= 90
+                extraStyles={`${percentUsed >= 90
                     ? 'bg-red-500'
                     : percentUsed >= 75
                       ? 'bg-yellow-500'

@@ -2,7 +2,7 @@ import { toast } from "sonner"
 
 const { useState } = require("react")
 
-const useFeatch = (cb) => {
+const useFetch = (cb) => {
   const [data, setData] = useState(undefined)
   const [loading, setLoading] = useState(null)
   const [error, setError] = useState(null)
@@ -28,4 +28,4 @@ const useFeatch = (cb) => {
   return {data,loading,error,fn}
 }
 
-export default useFeatch
+export default useFetch
