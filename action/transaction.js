@@ -91,7 +91,7 @@ export async function createTransaction(data) {
           userId: user.id,
           nextRecurringDate:
             data.isRecurring && data.recurringInterval
-              ? calculateNextRecurringDate(data.date, date.recurringInterval)
+              ? calculateNextRecurringDate(data.date, data.recurringInterval)
               : null,
         },
       });
