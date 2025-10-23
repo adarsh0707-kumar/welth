@@ -1,20 +1,12 @@
-// middleware.js  (root file)
-import arcjet, { createMiddleware, shield, detectBot } from "@arcjet/next";
-
-const aj = arcjet({
-  key: process.env.ARCJET_KEY,
-  rules: [
-    shield({ mode: "LIVE" }),
-    detectBot({
-      mode: "LIVE",
-      allow: ["CATEGORY:SEARCH_ENGINE", "GO_HTTP"],
-    }),
-  ],
-});
-
-export default createMiddleware(aj);
+// middleware.js
+import arcjetMiddleware from "./middleware.arcjet";
+import clerkMiddleware from "./middleware.clerk";
 
 export const config = {
-  // Protect all app and API routes except static assets
   matcher: ["/((?!_next|.*\\..*).*)", "/(api|trpc)(.*)"],
 };
+
+export default async function middleware(req, ev) {
+  await arcjetMiddleware(req, ev);
+  await clerkMiddleware(req, ev);
+}
