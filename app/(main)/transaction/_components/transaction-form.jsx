@@ -31,6 +31,11 @@ const AddTransactionForm = ({
   const searchParams = useSearchParams()
   const editId = searchParams.get("edit")
 
+  console.log('editId from props:', editId);
+  console.log('editMode:', editMode);
+  console.log('initialData:', initialData);
+
+
   const {
     register,
     setValue,
@@ -89,10 +94,13 @@ const AddTransactionForm = ({
       date: data.date.toISOString(),
     };
 
-    if (editMode) {
-      transactionFn(editMode, formData);
-    } else {
+    if (editMode && editId) {
+      transactionFn(editId, formData);
+    } else if(!editMode){
       transactionFn(formData);
+    }
+    else {
+      toast.error("Transaction ID is missing")
     }
   }
 
@@ -329,7 +337,7 @@ const AddTransactionForm = ({
       <div>
         <Button
           type="submit"
-          disabled={transactionLoading}
+          disabled={transactionLoading || (editMode && !editId )}
           className='w-full cursor-pointer'
         >
           {

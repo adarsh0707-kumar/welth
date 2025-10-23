@@ -219,9 +219,14 @@ export async function updateTransaction(id, data) {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
 
+    if (!id || typeof id !== "string") {
+      throw new Error("Valid transaction ID is required");
+    }
+
     const user = await db.user.findUnique({
       where: { clerkUserId: userId },
     });
+
 
     if (!user) {
       throw new Error("User not found");
@@ -231,7 +236,7 @@ export async function updateTransaction(id, data) {
 
     const originalTransaction = await db.transaction.findUnique({
       where: {
-        id,
+        id: id,
         userId: user.id,
       },
       include: {
@@ -262,6 +267,7 @@ export async function updateTransaction(id, data) {
         },
         data: {
           ...data,
+          category: data.category.toLowerCase(),
           nextRecurringDate:
             data.isRecurring && data.recurringInterval
               ? calculateNextRecurringDate(data.date, data.recurringInterval)

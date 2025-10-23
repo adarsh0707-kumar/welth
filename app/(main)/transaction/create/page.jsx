@@ -8,7 +8,9 @@ const AddTransactionPage = async ({ searchParams }) => {
   
   const accounts = await getUserAccounts()
   
-  const editId = searchParams?.edit;
+  // Await searchParams if it's a Promise
+  const params = await searchParams;
+  const editId = params?.edit;
 
   let initialData = null;
 
@@ -27,6 +29,7 @@ const AddTransactionPage = async ({ searchParams }) => {
         categories={defaultCategories}
         editMode={!!editId}
         initialData={initialData}
+        editId={editId}
       />
     </div>
   )
