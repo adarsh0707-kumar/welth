@@ -61,5 +61,15 @@
   },
   "resolutions": {
     "serialize-error-cjs": "^0.2.0"
-  }
+  },
+  "middleware": [
+    {
+      "path": "/(api|trpc)(.*)",
+      "middlewarePath": "middleware.js"
+    },
+    {
+      "path": "/(dashboard|account|transaction)(.*)",
+      "middlewarePath": "middleware.clerk.js"
+    }
+  ]
 }

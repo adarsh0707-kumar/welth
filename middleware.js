@@ -1,12 +1,5 @@
-// middleware.js (place in root folder, not inside src/)
+// middleware.js  (root file)
 import arcjet, { createMiddleware, shield, detectBot } from "@arcjet/next";
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-
-const isProtectedRoute = createRouteMatcher([
-  "/dashboard(.*)",
-  "/account(.*)",
-  "/transaction(.*)",
-]);
 
 const aj = arcjet({
   key: process.env.ARCJET_KEY,
@@ -19,19 +12,9 @@ const aj = arcjet({
   ],
 });
 
-const clerk = clerkMiddleware(async (auth, req) => {
-  const { userId, redirectToSignIn } = await auth();
-  if (!userId && isProtectedRoute(req)) {
-    return redirectToSignIn();
-  }
-});
-
-export default createMiddleware(aj, clerk);
+export default createMiddleware(aj);
 
 export const config = {
-  matcher: [
-    // Apply middleware to all routes except static assets and Next internals
-    "/((?!_next|.*\\..*).*)",
-    "/(api|trpc)(.*)",
-  ],
+  // Protect all app and API routes except static assets
+  matcher: ["/((?!_next|.*\\..*).*)", "/(api|trpc)(.*)"],
 };
