@@ -7,6 +7,10 @@ export default function EmailTemplate({
   data = {},
 }) {
 
+  if (type === "monthly-report") {
+    
+  }
+
   if (type === "budget-alert") {
     return (
       <Html>
