@@ -7,6 +7,11 @@ import {
   Zap,
 } from "lucide-react";
 
+import userMen1  from "../public/userMen1.jpg"
+import userWomen from "../public/userWomen.jpg"
+import userWomen2  from "../public/userWomen2.jpg"
+
+
 // Stats Data
 export const statsData = [
   {
@@ -90,21 +95,21 @@ export const testimonialsData = [
   {
     name: "Sarah Johnson",
     role: "Small Business Owner",
-    image: "https://randomuser.me/api/portraits/women/75.jpg",
+    image: userWomen,
     quote:
       "Welth has transformed how I manage my business finances. The AI insights have helped me identify cost-saving opportunities I never knew existed.",
   },
   {
     name: "Michael Chen",
     role: "Freelancer",
-    image: "https://randomuser.me/api/portraits/men/75.jpg",
+    image: userMen1,
     quote:
       "The receipt scanning feature saves me hours each month. Now I can focus on my work instead of manual data entry and expense tracking.",
   },
   {
     name: "Emily Rodriguez",
     role: "Financial Advisor",
-    image: "https://randomuser.me/api/portraits/women/74.jpg",
+    image: userWomen2,
     quote:
       "I recommend Welth to all my clients. The multi-currency support and detailed analytics make it perfect for international investors.",
   },
