@@ -22,13 +22,14 @@ import {
 } from '@/components/ui/select';
 
 const COLORS = [
-  "#FF6B6B",
-  "#4ECDC4",
-  "#45B7D1",
-  "#96CEB4",
-  "#FFEEAD",
-  "#D4A5A5",
-  "#9FA8DA"
+  "#f54e9c",
+  "#63bfb9",
+  "#36d17c",
+  "#4cf51d",
+  "#fad95a",
+  "#f70acc",
+  "#0826cc",
+  "#0b2901"
 ];
 
 /**
@@ -196,7 +197,7 @@ const DashboardOverview = ({ accounts, transactions }) => {
                         />
                       ))}
                     </Pie>
-                    <Legend />
+                    <Legend className='capitalize'/>
                   </PieChart>
                 </ResponsiveContainer>
               </div>
