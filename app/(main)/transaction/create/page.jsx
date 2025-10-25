@@ -1,8 +1,25 @@
 import React from 'react'
 import { getUserAccounts } from '@/action/dashboard'
 import { defaultCategories } from '@/data/categories'
-import AddTransactionForm from '../_components/transaction-form'
+
 import { getTransaction } from '@/action/transaction'
+import AddTransactionForm from '../_components/transaction-form'
+
+
+/**
+ * AddTransactionPage component for adding or editing a transaction.
+ * Fetches user accounts and, if in edit mode, retrieves the transaction data.
+ *
+ * @async
+ * @param {Object} props - Component props
+ * @param {Object} props.searchParams - Query parameters from the URL
+ * @param {string} [props.searchParams.edit] - Transaction ID for editing (optional)
+ *
+ * @returns {JSX.Element} The transaction form page
+ *
+ * @example
+ * <AddTransactionPage searchParams={{ edit: '1234' }} />
+ */
 
 const AddTransactionPage = async ({ searchParams }) => {
   
@@ -35,4 +52,4 @@ const AddTransactionPage = async ({ searchParams }) => {
   )
 }
 
-export default AddTransactionPage
+export default AddTransactionPage;

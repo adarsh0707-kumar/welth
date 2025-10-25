@@ -1,4 +1,5 @@
 "use client"
+
 import Link from 'next/link'
 import { toast } from 'sonner'
 import React, { useEffect } from 'react'
@@ -14,6 +15,21 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
+
+/**
+ * AccountsPage component displays detailed information about a specific account,
+ * including its name, type, balance, and associated transactions. It utilizes
+ * React's Suspense component to handle asynchronous loading of chart and transaction
+ * data with a fallback loader.
+ *
+ * @param {Object} props - The component props.
+ * @param {Object} props.params - The route parameters.
+ * @param {string} props.params.id - The unique identifier for the account.
+ * @returns {JSX.Element} The rendered AccountsPage component.
+ *
+ * @throws {Error} Throws an error if the account data cannot be found.
+ */
+
 
 const AccountCard = ({ account }) => {
 

@@ -30,6 +30,29 @@ import {
   DrawerTrigger
 } from './ui/drawer'
 
+
+/**
+ * CreateAccountDrawer component provides a drawer interface for creating new accounts.
+ *
+ * @component
+ * @param {Object} props
+ * @param {React.ReactNode} props.children - Trigger element that opens the drawer when clicked
+ *
+ * @example
+ * <CreateAccountDrawer>
+ *   <Button>Create Account</Button>
+ * </CreateAccountDrawer>
+ *
+ * @remarks
+ * - Uses `react-hook-form` with `zodResolver` to validate the form against `accountSchema`.
+ * - Uses `useFeatch` hook to call the `createAccount` API function.
+ * - Displays toast notifications for success and error messages.
+ * - Supports setting the account as default using a switch.
+ * - Includes cancel and submit buttons, with loading state on submit.
+ *
+ * @returns {JSX.Element} A drawer containing the create account form
+ */
+
 const CreateAccountDrawer = ({ children }) => {
 
   const [open, setOpen] = useState(false);
@@ -160,7 +183,9 @@ const CreateAccountDrawer = ({ children }) => {
                 >
                   Set as Default
                 </label>
-                <p className='text-sm text-muted-foreground'>This account will be selected by default for transactions</p>
+                <p className='text-sm text-muted-foreground'>
+                  This account will be selected by default for transactions
+                </p>
               </div>
               <Switch
                 id="isDefault"

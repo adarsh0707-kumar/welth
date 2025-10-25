@@ -1,10 +1,27 @@
 'use client'
-import { scanRecipt } from '@/action/transaction';
-import { Button } from '@/components/ui/button';
+
+import { toast } from 'sonner';
 import useFetch from '@/hooks/use-fetch';
 import { Camera, Loader2 } from 'lucide-react';
-import React, { useEffect, useRef } from 'react'
-import { toast } from 'sonner';
+
+import { Button } from '@/components/ui/button';
+import React, { useEffect, useRef } from 'react';
+import { scanRecipt } from '@/action/transaction';
+
+/**
+ * A component that allows users to scan receipts using their device's camera.
+ * It processes the scanned receipt and provides the extracted data to the parent component.
+ *
+ * @component
+ * @example
+ * // Usage example:
+ * <ReciptScanner onScanComplete={(data) => console.log(data)} />
+ *
+ * @param {Object} props - The component's props.
+ * @param {function} props.onScanComplete - Callback function that is called with the scanned data once the receipt is processed.
+ * @returns {JSX.Element} A button that triggers the receipt scanning process.
+ */
+
 
 const ReciptScanner = ({ onScanComplete }) => {
 
@@ -75,4 +92,4 @@ const ReciptScanner = ({ onScanComplete }) => {
   )
 }
 
-export default ReciptScanner
+export default ReciptScanner;

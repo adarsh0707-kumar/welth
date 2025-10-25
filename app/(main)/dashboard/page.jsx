@@ -1,13 +1,31 @@
-import React, { Suspense } from 'react'
 import { Plus } from 'lucide-react';
+import React, { Suspense } from 'react'
 import { getCurrentBudgets } from '@/action/budgets';
-import { getDashboardData, getUserAccounts } from '@/action/dashboard';
-
 import AccountCard from './_components/Account-card';
+
 import { Card, CardContent } from '@/components/ui/card';
 import BudgetProgress from './_components/budget-progress';
-import CreateAccountDrawer from '@/components/createAccountDrawer';
 import DashboardOverview from './_components/dashboard-overview';
+import CreateAccountDrawer from '@/components/createAccountDrawer';
+
+import { getDashboardData, getUserAccounts } from '@/action/dashboard';
+
+/**
+ * DashboardPage component displays the user's dashboard, including budget progress,
+ * recent transactions, and account information.
+ *
+ * @component
+ * @example
+ * const accounts = await getUserAccounts();
+ * const transactions = await getDashboardData();
+ * return <DashboardPage accounts={accounts} transactions={transactions} />;
+ *
+ * @param {Object} props - The component props.
+ * @param {Array} props.accounts - List of user accounts.
+ * @param {Array} props.transactions - List of user transactions.
+ * @returns {JSX.Element} The rendered DashboardPage component.
+ */
+
 
 
 const DashboardPage = async () => {

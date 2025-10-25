@@ -45,6 +45,45 @@ const PREVIEW_DATA = {
   },
 };
 
+/**
+ * EmailTemplate component renders HTML emails for financial notifications.
+ *
+ * @component
+ * @param {Object} props - Component props
+ * @param {string} [props.userName=""] - Name of the user to personalize the email
+ * @param {"monthly-report"|"budget-alert"} [props.type="monthly-report"] - Type of email to render
+ * @param {Object} [props.data={}] - Data used to populate the email content
+ * @param {Object} [props.data.stats] - Statistics for monthly report
+ * @param {number} [props.data.stats.totalIncome] - Total income for the month
+ * @param {number} [props.data.stats.totalExpenses] - Total expenses for the month
+ * @param {Object<string, number>} [props.data.stats.byCategory] - Breakdown of expenses by category
+ * @param {string[]} [props.data.insights] - AI-generated insights for the user
+ * @param {number} [props.data.percentageUsed] - Percentage of budget used (for budget alert)
+ * @param {number} [props.data.budgetAmount] - Total budget amount (for budget alert)
+ * @param {number} [props.data.totalExpenses] - Total expenses so far (for budget alert)
+ *
+ * @returns {JSX.Element} Rendered email in HTML format compatible with email clients
+ *
+ * @example
+ * <EmailTemplate
+ *   userName="John Doe"
+ *   type="monthly-report"
+ *   data={{
+ *     month: "December",
+ *     stats: { totalIncome: 5000, totalExpenses: 3500, byCategory: { housing: 1500 } },
+ *     insights: ["Great job keeping entertainment under budget!"]
+ *   }}
+ * />
+ *
+ * @remarks
+ * - Supports two email types: "monthly-report" and "budget-alert".
+ * - Uses `@react-email/components` to structure the HTML email.
+ * - Provides safe fallbacks for missing data.
+ * - Calculates net income for monthly report.
+ * - Includes sections for stats, category breakdown, AI insights, and budget usage.
+ * - Styled with inline styles compatible with most email clients.
+ */
+
 export default function EmailTemplate({
   userName = "",
   type = "monthly-report",

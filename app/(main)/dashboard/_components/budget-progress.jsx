@@ -1,9 +1,14 @@
 'use client';
 
-import React, { useEffect, useState } from 'react'
-import { Check, Pencil, X } from 'lucide-react';
+import { toast } from 'sonner';
+import useFeatch from '@/hooks/use-fetch';
 import { Input } from '@/components/ui/input';
+import { Check, Pencil, X } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
+import { updateBudget } from '@/action/budgets';
+import React, { useEffect, useState } from 'react'
+import { Progress } from '@/components/ui/progress';
 import {
   Card,
   CardContent,
@@ -11,10 +16,19 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
-import useFeatch from '@/hooks/use-fetch';
-import { updateBudget } from '@/action/budgets';
-import { toast } from 'sonner';
-import { Progress } from '@/components/ui/progress';
+
+/**
+ * BudgetProgress component displays the monthly budget for a specific account,
+ * including the current expenses, total budget, and a progress bar indicating
+ * the percentage of the budget used. Users can edit and update the budget amount.
+ *
+ * @param {Object} props - Component props.
+ * @param {Object} props.initialBudget - Initial budget object containing the amount.
+ * @param {number} props.currentExpenses - Current total expenses for the month.
+ * @param {string} props.accountName - Name of the account associated with the budget.
+ * @returns {JSX.Element} The rendered BudgetProgress component.
+ */
+
 
 const BudgetProgress = ({ initialBudget, currentExpenses, accountName }) => {
   const [isEditing, setIsEditing] = useState(false);

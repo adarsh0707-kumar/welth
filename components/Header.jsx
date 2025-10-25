@@ -13,6 +13,27 @@ import {
   UserButton,
 } from '@clerk/nextjs';
 
+/**
+ * Header component for the Wealth Management application.
+ * 
+ * @async
+ * @component
+ * @example
+ * <Header />
+ * 
+ * @remarks
+ * - Displays the logo linking to the homepage.
+ * - Shows navigation buttons for signed-in users: Dashboard and Add Transaction.
+ * - Shows Login button for signed-out users using `SignInButton`.
+ * - Displays `UserButton` for account management when signed in.
+ * - Calls `checkUser` asynchronously to verify the user session before rendering.
+ * - Uses `SignedIn` and `SignedOut` components from Clerk for conditional rendering.
+ * - Fixed to the top with backdrop blur and border styling.
+ *
+ * @returns {Promise<JSX.Element>} The header JSX element
+ */
+
+
 const Header = async () => {
   // const { user } = useUser();
 

@@ -1,11 +1,25 @@
 'use client'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
 import { cn } from '@/lib/utils';
-import { format } from 'date-fns/format';
-import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
 import React, { useState } from 'react'
+import { format } from 'date-fns/format';
+
+import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer } from 'recharts';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select';
 
 const COLORS = [
   "#FF6B6B",
@@ -16,6 +30,19 @@ const COLORS = [
   "#D4A5A5",
   "#9FA8DA"
 ];
+
+/**
+ * DashboardOverview component displays an overview of user accounts and transactions.
+ * It includes a list of recent transactions for the selected account and a monthly
+ * expense breakdown displayed as a pie chart.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {Array<Object>} props.accounts - Array of account objects with properties like `id`, `name`, `isDefault`.
+ * @param {Array<Object>} props.transactions - Array of transaction objects with properties like `id`, `accountId`, `type`, `amount`, `category`, `date`, `description`.
+ * @returns {JSX.Element} A dashboard overview UI component.
+ */
+
 
 const DashboardOverview = ({ accounts, transactions }) => {
   const [selectedAccountId, setSelectedAccountId] = useState(
@@ -59,6 +86,8 @@ const DashboardOverview = ({ accounts, transactions }) => {
     name: category,
     value: amount,
   }))
+
+  
 
   return (
     <div className='grid gap-4 md:grid-cols-2'>
@@ -116,11 +145,13 @@ const DashboardOverview = ({ accounts, transactions }) => {
                             : "text-green-500"
                         )}
                       >
-                        {transaction.type === "EXPENSE" ? (
-                          <ArrowDownRight className='mr-1 h-4 w-4' />
-                        ) : (
-                          <ArrowUpRight className='mr-1 h-4 w-4' />
-                        )}
+                        {
+                          transaction.type === "EXPENSE" ? (
+                            <ArrowDownRight className='mr-1 h-4 w-4' />
+                          ) : (
+                            <ArrowUpRight className='mr-1 h-4 w-4' />
+                          )
+                        }
                         ₹{transaction.amount.toFixed(2)}
                       </div>
                     </div>
@@ -146,7 +177,7 @@ const DashboardOverview = ({ accounts, transactions }) => {
                 No expenses this month
               </p>
             ) : (
-              <div className="h-[300px] w-full"> 
+              <div className="h-[300px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
@@ -156,7 +187,7 @@ const DashboardOverview = ({ accounts, transactions }) => {
                       outerRadius={80}
                       fill="#8884d8"
                       dataKey="value"
-                      label={({ name, value }) => `${name}: ₹${value.toFixed(2)}`}
+                      label={({ name, value }) => `₹${value.toFixed(2)}`}
                     >
                       {pieChartData.map((entry, index) => (
                         <Cell
@@ -164,8 +195,8 @@ const DashboardOverview = ({ accounts, transactions }) => {
                           fill={COLORS[index % COLORS.length]}
                         />
                       ))}
-                      </Pie>
-                      <Legend />
+                    </Pie>
+                    <Legend />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
@@ -177,4 +208,4 @@ const DashboardOverview = ({ accounts, transactions }) => {
   )
 }
 
-export default DashboardOverview
+export default DashboardOverview;

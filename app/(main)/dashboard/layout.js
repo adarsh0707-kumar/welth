@@ -2,6 +2,21 @@ import DashboardPage from './page';
 import React, { Suspense } from 'react'
 import { BarLoader } from 'react-spinners'
 
+/**
+ * DashboardLayout component renders the main dashboard layout,
+ * including the page title and the dashboard page content.
+ *
+ * Utilizes React Suspense to handle lazy loading of the DashboardPage component,
+ * displaying a BarLoader spinner as a fallback during the loading process.
+ *
+ * @component
+ * @example
+ * // Example usage:
+ * <DashboardLayout />
+ *
+ * @returns {JSX.Element} The rendered dashboard layout.
+ */
+
 
 const DashboardLayout = () => {
   return (

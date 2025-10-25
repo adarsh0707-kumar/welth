@@ -11,6 +11,30 @@ import {
   testimonialsData
 } from "@/data/landing";
 
+/**
+ * Home page component for the Wealth Management application.
+ * 
+ * @component
+ * @example
+ * <Home />
+ * 
+ * @returns {JSX.Element} The landing page with multiple sections:
+ * - Hero section
+ * - Stats overview
+ * - Features
+ * - How it works
+ * - Testimonials
+ * - Call-to-action
+ * 
+ * @remarks
+ * - Uses `HeroSection` component for the top banner.
+ * - Maps over `statsData` to show key statistics.
+ * - Displays `featuresData` with `Card` components for feature highlights.
+ * - Shows `howItWorksData` steps with icons and descriptions.
+ * - Displays `testimonialsData` as cards with user images, names, roles, and quotes.
+ * - Includes a call-to-action section with a button linking to the dashboard.
+ */
+
 
 export default function Home() {
   return (

@@ -1,14 +1,14 @@
 'use client'
-import { endOfDay } from 'date-fns/endOfDay';
+
 import { format } from 'date-fns/format';
-import { startOfDay } from 'date-fns/startOfDay';
 import { subDays } from 'date-fns/subDays';
+import { endOfDay } from 'date-fns/endOfDay';
 import React, { useMemo, useState } from 'react'
+import { startOfDay } from 'date-fns/startOfDay';
 
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
@@ -22,8 +22,13 @@ import {
   XAxis,
   YAxis
 } from 'recharts';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { date } from 'zod';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select';
 
 const DATE_RANGES = {
   "7D": { label: "Last 7 Days", days: 7 },
@@ -33,6 +38,26 @@ const DATE_RANGES = {
   "1Y": { label: "Last 1 Year", days: 365 },
   ALL: { label: "All Time", days: null },
 }
+
+/**
+ * AccountChart Component
+ *
+ * This component renders a bar chart displaying transaction data over a selectable date range.
+ * It visualizes daily income and expense amounts, providing an overview of financial activity.
+ * The chart updates dynamically based on the selected date range.
+ *
+ * @component
+ * @example
+ * // Usage within a Next.js page
+ * <AccountChart transactions={transactionsData} />
+ *
+ * @param {Object} props - The component props.
+ * @param {Array<Object>} props.transactions - An array of transaction objects.
+ * @param {string} props.transactions[].date - The date of the transaction.
+ * @param {number} props.transactions[].amount - The amount of the transaction.
+ * @param {'INCOME'|'EXPENSE'} props.transactions[].type - The type of the transaction.
+ * @returns {JSX.Element} The rendered AccountChart component.
+ */
 
 const AccountChart = ({ transactions }) => {
 

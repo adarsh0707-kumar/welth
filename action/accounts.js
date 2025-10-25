@@ -1,7 +1,19 @@
 "use server";
+
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
+
+/**
+ * Serialize a transaction/account object by converting possible Decimal values
+ * (from Prisma) into plain JS numbers.
+ *
+ * @param {Object} obj - The object to serialize (transaction or account).
+ * @param {import("decimal.js").Decimal} [obj.balance] - Optional Decimal balance field.
+ * @param {import("decimal.js").Decimal} [obj.amount] - Optional Decimal amount field.
+ * @returns {Object} The serialized object with `balance` and `amount` as numbers.
+ */
+
 
 const serializeTransaction = (obj) => {
   const serialized = { ...obj };
@@ -17,6 +29,24 @@ const serializeTransaction = (obj) => {
   return serialized;
 };
 
+
+/**
+ * Update the default account of the authenticated user.
+ * 
+ * This will:
+ * 1. Mark all accounts of the user as `isDefault: false`.
+ * 2. Then set the `isDefault` flag to `true` for the requested `accountId`.
+ * 3. Revalidate the "/dashboard" path so that Next.js reflects the change.
+ *
+ * @param {string} accountId - The ID of the account to set as default.
+ * @returns {Promise<{ success: boolean, data?: Object, error?: string }>}
+ *   - `success`: Whether the operation succeeded.
+ *   - `data`: The updated account object (serialized) if success.
+ *   - `error`: Error message if failed.
+ * @throws {Error} If the user is not authenticated or user/account not found.
+ */
+
+
 export async function updateDefaultAccount(accountId) {
   try {
     const { userId } = await auth();
@@ -30,11 +60,13 @@ export async function updateDefaultAccount(accountId) {
       throw new Error("User not found");
     }
 
+    // Unset previous default account(s)
     await db.account.updateMany({
       where: { userId: user.id, isDefault: true },
       data: { isDefault: false },
     });
 
+    // Set the new default account
     const account = await db.account.update({
       where: {
         id: accountId,
@@ -43,7 +75,9 @@ export async function updateDefaultAccount(accountId) {
       data: { isDefault: true },
     });
 
+    // Invalidate/revalidate the dashboard so UI updates
     revalidatePath("/dashboard");
+
     return {
       success: true,
       data: serializeTransaction(account),
@@ -51,10 +85,26 @@ export async function updateDefaultAccount(accountId) {
   } catch (error) {
     return {
       success: false,
-      error: error.message,
+      error: /** @type {Error} */ (error).message,
     };
   }
 }
+
+
+/**
+ * Fetch an account by ID (of the authenticated user) along with its transactions.
+ *
+ * @param {string} accountId - The ID of the account to fetch.
+ * @returns {Promise<null | { 
+ *     id: string;
+ *     balance: number;
+ *      other account fields ,
+ *     transactions: Array<Object>
+ *     _count: { transactions: number }
+ * }>} - Returns null if no account found, else the account with serialized fields.
+ * @throws { Error } If user is not authenticated or user not found.
+ * 
+ */
 
 export async function getAccountWithTransactions(accountId) {
   const { userId } = await auth();
@@ -91,6 +141,23 @@ export async function getAccountWithTransactions(accountId) {
   };
 }
 
+/**
+ * Delete multiple transactions (bulk) for the authenticated user, and adjust account balances accordingly.
+ *
+ * - First, verifies all transaction IDs belong to the user.
+ * - Calculates how each transaction affects its account balance (adding back expenses, subtracting incomes).
+ * - Executes a database transaction to delete those transactions and update corresponding account balances.
+ * - Revalidates cache paths: "/dashboard" and "/account/[id]".
+ *
+ * @param {string[]} transactionIds - Array of transaction IDs to delete.
+ * @returns {Promise<{
+ *   success: boolean;
+ *   deletedCount: number;
+ *   message?: string;
+ *   error?: string;
+ * }>} - Result of the deletion, how many deleted and status.
+ */
+
 export async function bulkDeleteTransactions(transactionIds) {
   try {
     const { userId } = await auth();
@@ -106,7 +173,7 @@ export async function bulkDeleteTransactions(transactionIds) {
 
     console.log("Requested to delete:", transactionIds);
 
-    // First, verify all transactions belong to this user and get their details
+    // Fetch transactions belonging to user
     const transactions = await db.transaction.findMany({
       where: {
         id: { in: transactionIds },
@@ -131,29 +198,20 @@ export async function bulkDeleteTransactions(transactionIds) {
       };
     }
 
-    // Calculate balance changes for each account - CONVERT TO NUMBERS FIRST
+    // Compute how each account balance should change
     const accountBalanceChanges = transactions.reduce((acc, transaction) => {
-      // Convert Decimal.js objects to numbers
       const amount = parseFloat(transaction.amount.toString());
-
       const change =
-        transaction.type === "EXPENSE"
-          ? amount // For expenses, we add back the amount
-          : -amount; // For income, we subtract the amount
-
+        transaction.type === "EXPENSE" ? amount : -amount;
       const accountId = transaction.accountId;
-
-      // Initialize with 0 if not exists, then add the change
       acc[accountId] = (acc[accountId] || 0) + change;
-
       return acc;
     }, {});
 
     console.log("Account balance changes:", accountBalanceChanges);
 
-    // Perform deletion and balance updates in a transaction
+    // Run delete + balance updates in a transaction
     const result = await db.$transaction(async (tx) => {
-      // Delete only the transactions that belong to this user
       const deletedTransactions = await tx.transaction.deleteMany({
         where: {
           id: { in: transactions.map((t) => t.id) },
@@ -163,7 +221,6 @@ export async function bulkDeleteTransactions(transactionIds) {
 
       console.log("Deleted count:", deletedTransactions.count);
 
-      // Update account balances
       for (const [accountId, balanceChange] of Object.entries(
         accountBalanceChanges
       )) {
@@ -173,9 +230,7 @@ export async function bulkDeleteTransactions(transactionIds) {
             userId: user.id,
           },
           data: {
-            balance: {
-              increment: balanceChange,
-            },
+            balance: { increment: balanceChange },
           },
         });
         console.log(`Updated account ${accountId} by ${balanceChange}`);
@@ -198,7 +253,7 @@ export async function bulkDeleteTransactions(transactionIds) {
     console.error("bulkDeleteTransactions error:", error);
     return {
       success: false,
-      error: error.message,
+      error: /** @type {Error} */ (error).message,
       deletedCount: 0,
     };
   }

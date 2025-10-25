@@ -1,4 +1,5 @@
 'use client'
+
 import { toast } from 'sonner'
 import { format } from 'date-fns/format'
 import useFeatch from '@/hooks/use-fetch'
@@ -66,6 +67,34 @@ const RECURRING_INTERVALS = {
   MONTHLY: "Monthly",
   YEARLY: "Yearly",
 }
+
+/**
+ * TransactionTable component displays a paginated, sortable, and filterable list of financial transactions.
+ * It supports bulk deletion, inline editing, and categorization, providing a comprehensive interface
+ * for managing transaction data.
+ *
+ * @component
+ * @example
+ * const transactions = [
+ *   {
+ *     id: 1,
+ *     date: '2025-10-01',
+ *     description: 'Salary',
+ *     category: 'income',
+ *     amount: 50000,
+ *     type: 'INCOME',
+ *     isRecurring: false,
+ *     recurringInterval: 'MONTHLY',
+ *     nextRecurringDate: '2025-11-01',
+ *   },
+ *   // more transactions...
+ * ];
+ * <TransactionTable transactions={transactions} />
+ *
+ * @param {Object} props - Component properties.
+ * @param {Array<Object>} props.transactions - List of transaction objects to display.
+ * @returns {JSX.Element} The rendered TransactionTable component.
+ */
 
 const TransactionTable = ({ transactions }) => {
   const router = useRouter()
@@ -162,7 +191,9 @@ const TransactionTable = ({ transactions }) => {
   }
 
   const handleSelect = (id) => {
-    setSelectedIds(current => current.includes(id) ? current.filter(item => item !== id) : [...current, id])
+    setSelectedIds(current => current.includes(id)
+      ? current.filter(item => item !== id)
+      : [...current, id])
   }
 
   const handleSelectAll = () => {
@@ -401,7 +432,10 @@ const TransactionTable = ({ transactions }) => {
                       color: transaction.type === "EXPENSE" ? "red" : "green",
                     }}
                   >
-                    {transaction.type === "EXPENSE" ? "-" : "+"}&#8377;{transaction.amount.toFixed(2)}
+                    {transaction.type === "EXPENSE"
+                      ? "-"
+                      : "+"}&#8377;{transaction.amount.toFixed(2)
+                    }
                   </TableCell>
                   <TableCell>
                     {transaction.isRecurring ? (

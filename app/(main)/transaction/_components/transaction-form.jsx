@@ -1,23 +1,76 @@
 'use client'
 
-import { createTransaction, updateTransaction } from '@/action/transaction'
-import { transactionSchema } from '@/app/lib/schema'
-import CreateAccountDrawer from '@/components/createAccountDrawer'
+import { toast } from 'sonner'
+import { format } from 'date-fns/format'
+import React, { useEffect } from 'react'
+import useFetch from '@/hooks/use-fetch'
+
+import { useForm } from 'react-hook-form'
+import ReciptScanner from './recipt-scanner'
+import { Input } from '@/components/ui/input'
+import { Switch } from '@/components/ui/switch'
+
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
-import { Input } from '@/components/ui/input'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Switch } from '@/components/ui/switch'
-import useFetch from '@/hooks/use-fetch'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { format } from 'date-fns/format'
 import { CalendarIcon, Loader2 } from 'lucide-react'
+import { transactionSchema } from '@/app/lib/schema'
+
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter, useSearchParams } from 'next/navigation'
-import React, { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
-import ReciptScanner from './recipt-scanner'
+import CreateAccountDrawer from '@/components/createAccountDrawer'
+import { createTransaction, updateTransaction } from '@/action/transaction'
+
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
+
+
+/**
+ * AddTransactionForm component handles creation and editing of financial transactions.
+ * It supports both expense and income types, recurring transactions, and account/category selection.
+ * It also integrates a receipt scanner for quick data entry when creating a transaction.
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {Array<Object>} props.accounts - List of user accounts to select from.
+ * @param {Array<Object>} props.categories - List of transaction categories.
+ * @param {boolean} [props.editMode=false] - If true, the form will be in edit mode.
+ * @param {Object|null} [props.initialData=null] - Initial data to prefill the form in edit mode.
+ * 
+ * @typedef {Object} Account
+ * @property {string} id - Unique account ID
+ * @property {string} name - Account name
+ * @property {number|string} balance - Account balance
+ * @property {boolean} isDefault - Whether this is the default account
+ * 
+ * @typedef {Object} Category
+ * @property {string} id - Unique category ID
+ * @property {string} name - Category name
+ * @property {"EXPENSE"|"INCOME"} type - Category type
+ * 
+ * @typedef {Object} TransactionData
+ * @property {"EXPENSE"|"INCOME"} type - Transaction type
+ * @property {string|number} amount - Transaction amount
+ * @property {string} description - Transaction description
+ * @property {string} accountId - ID of the selected account
+ * @property {string} category - Transaction category name
+ * @property {Date} date - Transaction date
+ * @property {boolean} isRecurring - Whether transaction is recurring
+ * @property {string} [recurringInterval] - Recurring interval if applicable
+ * 
+ * @example
+ * <AddTransactionForm
+ *   accounts={[{ id: '1', name: 'Cash', balance: 1000, isDefault: true }]}
+ *   categories={[{ id: 'cat1', name: 'Food', type: 'EXPENSE' }]}
+ *   editMode={false}
+ * />
+ */
+
 
 const AddTransactionForm = ({
   accounts,
@@ -87,6 +140,13 @@ const AddTransactionForm = ({
     (category) => category.type === type
   )
 
+  /**
+ * Handles form submission to create or update a transaction.
+ * Converts amount to number and date to ISO string.
+ * @param {TransactionData} data - Form data
+ * @returns {Promise<void>}
+ */
+
   const onSubmit = async (data) => {
     const formData = {
       ...data,
@@ -115,6 +175,16 @@ const AddTransactionForm = ({
 
     }
   }, [transactionResult, transactionLoading, editMode])
+
+  /**
+ * Handles the scanned receipt data and populates the form fields.
+ * @param {Object} scannedData
+ * @param {string|number} scannedData.amount
+ * @param {string|Date} scannedData.date
+ * @param {string} [scannedData.description]
+ * @param {string} [scannedData.category]
+ */
+
 
   const handleScanComplete = (scannedData) => {
     if (scannedData) {
@@ -163,7 +233,6 @@ const AddTransactionForm = ({
       </div>
 
       <div className='grid gap-6 md:grid-cols-2'>
-
         <div className='space-y-2'>
           <label className='text-sm font-medium'>Amount</label>
           <Input
@@ -197,7 +266,11 @@ const AddTransactionForm = ({
               ))}
 
               <CreateAccountDrawer>
-                <Button variant='ghost' className='cursor-pointer w-full select-none items-center text-sm outline-none'>Create Account</Button>
+                <Button
+                  variant='ghost'
+                  className='cursor-pointer w-full select-none items-center text-sm outline-none'>
+                  Create Account
+                </Button>
               </CreateAccountDrawer>
 
             </SelectContent>
@@ -228,10 +301,8 @@ const AddTransactionForm = ({
                 </SelectItem>
               ))
             }
-
           </SelectContent>
         </Select>
-
         {errors.category && (
           <p className='text-sm text-red-500'>
             {errors.category.message}
@@ -241,10 +312,12 @@ const AddTransactionForm = ({
 
       <div className='space-y-2'>
         <label className='text-sm font-medium'>Date</label>
-
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant='outline' className='w-full text-left pl-3 font-normal cursor-pointer'>
+            <Button
+              variant='outline'
+              className='w-full text-left pl-3 font-normal cursor-pointer'
+            >
               {date ? format(date, "PPP") : <span>Pick a date</span>}
               <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
             </Button>
@@ -257,11 +330,8 @@ const AddTransactionForm = ({
               disabled={(date) => date === new Date() || date < new Date("1900-01-01")}
               initialFocus
             />
-
           </PopoverContent>
         </Popover>
-
-
 
         {errors.date && (
           <p className='text-sm text-red-500'>
@@ -280,7 +350,6 @@ const AddTransactionForm = ({
             {errors.description.message}
           </p>
         )}
-
       </div>
 
       <div className='flex items-center justify-between rounded-lg border p-3'>
@@ -301,7 +370,6 @@ const AddTransactionForm = ({
           onCheckedChange={(checked) => setValue("isRecurring", checked)}
           className="cursor-pointer"
         />
-
       </div>
 
       {
@@ -332,7 +400,6 @@ const AddTransactionForm = ({
           </div>
         )
       }
-
 
       <div>
         <Button
@@ -369,14 +436,8 @@ const AddTransactionForm = ({
         </Button>
       </div>
 
-
-
-
-
     </form>
   )
 }
 
 export default AddTransactionForm;
-
-

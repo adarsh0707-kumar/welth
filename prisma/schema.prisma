@@ -16,6 +16,32 @@ datasource db {
   directUrl  = env("DIRECT_URL")
 }
 
+/**
+ * Prisma Schema for Wealth Management Application
+ *
+ * This schema defines the core database models: User, Account, Transaction, and Budget.
+ * It also includes enums for account type, transaction type, recurring intervals, and transaction status.
+ *
+ * Generator:
+ * - Prisma Client JS is used for database operations.
+ * - Binary targets specified for native and common Linux distributions.
+ *
+ * Datasource:
+ * - PostgreSQL is used as the database.
+ * - `DATABASE_URL` for general access, `DIRECT_URL` for direct access.
+ */
+
+/**
+ * User model
+ *
+ * Represents a user in the system.
+ * - `clerkUserId` links the user to Clerk authentication.
+ * - Relationships:
+ *    - transactions: Transaction[]
+ *    - accounts: Account[]
+ *    - budgets: Budget[]
+ */
+
 model User{
   id String @id @default(uuid())
   clerkUserId String @unique
@@ -30,6 +56,15 @@ model User{
 
   @@map("users")
 }
+
+
+/**
+ * Account model
+ *
+ * Represents a financial account (e.g., current or savings account) for a user.
+ * - `type` uses the AccountType enum
+ * - `isDefault` determines if this account is default for transactions
+ */
 
 model Account{
   id String @id @default(uuid())
@@ -52,6 +87,15 @@ enum AccountType{
   SAVINGS
 }
 
+/**
+ * Transaction model
+ *
+ * Represents a single financial transaction.
+ * - `type` specifies if it's INCOME or EXPENSE
+ * - `isRecurring` indicates whether it repeats
+ * - `recurringInterval` and `nextRecurringDate` handle recurring logic
+ * - `status` tracks transaction completion
+ */
 
 
 model Transaction{
@@ -96,6 +140,14 @@ enum TransactionStatus{
   COMPLETED
   FAILED
 }
+
+/**
+ * Budget model
+ *
+ * Represents a monthly budget for a user.
+ * - `lastAlertSent` tracks the last time a budget alert was sent
+ * - One-to-one relationship with User
+ */
 
 model Budget{
   id String @id @default(uuid())

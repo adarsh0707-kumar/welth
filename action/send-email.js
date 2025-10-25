@@ -1,5 +1,27 @@
+
 import { Resend } from "resend";
 import { render } from "@react-email/render";
+
+/**
+ * Send an email using Resend and render a React Email component to HTML.
+ *
+ * @async
+ * @param {Object} params - Parameters for sending the email.
+ * @param {string | string[]} params.to - Recipient email address(es).
+ * @param {string} params.subject - Subject line for the email.
+ * @param {import("react").ReactElement} params.react - A React component (email template) to render.
+ * @returns {Promise<{
+ *   success: boolean;
+ *   data?: any;
+ *   error?: string;
+ * }>} Result of the email send operation.
+ *   - `success`: whether the email was sent.
+ *   - `data`: response data from Resend (if succeeded).
+ *   - `error`: error message if failed.
+ *
+ * @throws {Error} If the RESEND_API_KEY is missing or rendering fails.
+ */
+
 
 export async function sendEmail({ to, subject, react }) {
   const resend = new Resend(process.env.RESEND_API_KEY || "");

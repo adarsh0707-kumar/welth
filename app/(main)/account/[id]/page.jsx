@@ -2,9 +2,28 @@ import React, { Suspense } from 'react'
 import { BarLoader } from 'react-spinners';
 import { notFound } from 'next/navigation';
 
+import AccountChart from '../_components/account-chart';
 import { getAccountWithTransactions } from '@/action/accounts';
 import TransactionTable from '../_components/transaction-table';
-import AccountChart from '../_components/account-chart';
+
+/**
+ * AccountsPage component displays detailed information about a specific account,
+ * including its balance, transaction count, and visual representations such as
+ * charts and tables.
+ *
+ * This page fetches account data asynchronously based on the provided account ID
+ * and renders the account's details along with its associated transactions.
+ *
+ * @component
+ * @example
+ * // Example usage:
+ * <AccountsPage params={{ id: '12345' }} />
+ *
+ * @param {Object} props - The component props.
+ * @param {Object} props.params - The route parameters.
+ * @param {string} props.params.id - The unique identifier of the account to display.
+ * @returns {JSX.Element} The rendered AccountsPage component.
+ */
 
 const AccountsPage = async ({ params }) => {
 

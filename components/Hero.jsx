@@ -4,6 +4,23 @@ import Image from 'next/image'
 import { Button } from './ui/button'
 import React, { useEffect, useRef } from 'react'
 
+
+/**
+ * HeroSection component displays the main landing section of the application.
+ *
+ * @component
+ * @example
+ * <HeroSection />
+ *
+ * @remarks
+ * - Displays a large heading and description for the AI-powered finance platform.
+ * - Includes two call-to-action buttons: "Get Started" and "Watch Demo" linking to the dashboard.
+ * - Shows a hero image that responds to scroll events by toggling a 'scrolled' class.
+ * - Uses `useRef` to track the hero image element and `useEffect` to attach a scroll listener.
+ *
+ * @returns {JSX.Element} The hero section JSX element
+ */
+
 const HeroSection = () => {
 
   const imageRef = useRef()

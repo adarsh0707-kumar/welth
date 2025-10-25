@@ -28,12 +28,26 @@ const CATEGORIES = {
   ],
 };
 
-// Helper to generate random amount within a range
+/**
+ * Generates a random floating-point amount between `min` and `max`, with two decimal places.
+ *
+ * @param {number} min - The minimum possible value (inclusive).
+ * @param {number} max - The maximum possible value (inclusive).
+ * @returns {number} A random number between `min` and `max`, rounded to 2 decimal places.
+ */
 function getRandomAmount(min, max) {
   return Number((Math.random() * (max - min) + min).toFixed(2));
 }
 
-// Helper to get random category with amount
+/**
+ * Picks a random category of the given transaction type (INCOME or EXPENSE),
+ * and generates a random amount in the defined range for that category.
+ *
+ * @param {"INCOME" | "EXPENSE"} type - The type of transaction.
+ * @returns {{ category: string, amount: number }} An object containing:
+ *   - `category`: the name of the chosen category.
+ *   - `amount`: a random amount within the category's range.
+ */
 function getRandomCategory(type) {
   const categories = CATEGORIES[type];
   const category = categories[Math.floor(Math.random() * categories.length)];
@@ -41,20 +55,39 @@ function getRandomCategory(type) {
   return { category: category.name, amount };
 }
 
+/**
+ * Seeds the database with mock transactions for the last 90 days, and updates the account balance.
+ *
+ * - Generates between 1 to 3 random transactions per day.
+ * - For each transaction, randomly decides if it's an INCOME or EXPENSE.
+ * - Uses `getRandomCategory` to decide the category and amount.
+ * - Creates each transaction object with `id`, `type`, `amount`, `description`, `date`, `category`, `status`,
+ *   `userId`, `accountId`, `createdAt`, and `updatedAt` fields.
+ * - Calculates a running total balance change.
+ * - Uses a Prisma transaction (`db.$transaction`) to:
+ *   1. Delete existing transactions for `ACCOUNT_ID`.
+ *   2. Create all the generated transactions in bulk.
+ *   3. Update the account with `ACCOUNT_ID` to set its `balance` field to the calculated total.
+ *
+ * @returns {Promise<{ success: boolean, message?: string, error?: string }>} Result of seeding:
+ *   - `success`: true if the seeding was successful.
+ *   - `message`: a human-readable message on success.
+ *   - `error`: error message if something went wrong.
+ */
+
 export async function seedTransactions() {
   try {
-    // Generate 90 days of transactions
     const transactions = [];
     let totalBalance = 0;
 
     for (let i = 90; i >= 0; i--) {
       const date = subDays(new Date(), i);
 
-      // Generate 1-3 transactions per day
+      // Generate 1-3 transactions for each day
       const transactionsPerDay = Math.floor(Math.random() * 3) + 1;
 
       for (let j = 0; j < transactionsPerDay; j++) {
-        // 40% chance of income, 60% chance of expense
+        // Randomly decide if it's income or expense
         const type = Math.random() < 0.4 ? "INCOME" : "EXPENSE";
         const { category, amount } = getRandomCategory(type);
 
@@ -62,9 +95,7 @@ export async function seedTransactions() {
           id: crypto.randomUUID(),
           type,
           amount,
-          description: `${
-            type === "INCOME" ? "Received" : "Paid for"
-          } ${category}`,
+          description: `${type === "INCOME" ? "Received" : "Paid for"} ${category}`,
           date,
           category,
           status: "COMPLETED",
@@ -74,24 +105,24 @@ export async function seedTransactions() {
           updatedAt: date,
         };
 
+        // Update total balance based on type
         totalBalance += type === "INCOME" ? amount : -amount;
         transactions.push(transaction);
       }
     }
 
-    // Insert transactions in batches and update account balance
     await db.$transaction(async (tx) => {
-      // Clear existing transactions
+      // Remove old transactions for the account
       await tx.transaction.deleteMany({
         where: { accountId: ACCOUNT_ID },
       });
 
-      // Insert new transactions
+      // Insert all new transactions
       await tx.transaction.createMany({
         data: transactions,
       });
 
-      // Update account balance
+      // Update the account's balance
       await tx.account.update({
         where: { id: ACCOUNT_ID },
         data: { balance: totalBalance },
