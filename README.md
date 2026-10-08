@@ -1,282 +1,366 @@
-# Welth 💰
+# Welth — Personal Finance Manager
 
-A modern, AI-powered personal finance management application built with Next.js. Welth helps you track expenses, analyze spending patterns, and achieve your financial goals with intelligent insights.
+> **A full-stack personal finance application built with Next.js, PostgreSQL, Prisma, Clerk, and AI-assisted financial insights.**
 
-**Live Demo:** [https://welth-c7zv.onrender.com/](https://welth-c7zv.onrender.com/)
+**Live demo:** https://welth-c7zv.onrender.com/
 
-![Welth Dashboard](https://via.placeholder.com/1200x600/3B82F6/FFFFFF?text=Welth+-+Smart+Personal+Finance+Management) *<!-- Replace with actual screenshot -->*
-
-## ✨ Features
-
-### 🔐 Authentication & Security
-- **Secure Authentication** powered by Clerk
-- **Rate Limiting & Protection** with Arcjet
-- **Session Management** with secure tokens
-
-### 💸 Financial Management
-- **Expense Tracking** with intuitive categorization
-- **Income Management** for complete financial picture
-- **Transaction History** with advanced filtering
-- **Financial Analytics** with Recharts visualizations
-- **AI-Powered Insights** using Google Generative AI
-
-### 🎨 User Experience
-- **Dark/Light Mode** with next-themes
-- **Responsive Design** for all devices
-- **Modern UI Components** with Radix UI
-- **Real-time Notifications** with Sonner toasts
-- **Accessible Design** following WCAG guidelines
-
-### 🔧 Advanced Features
-- **Email Integration** with Resend and React Email
-- **Background Jobs** with Inngest
-- **Database Management** with Prisma ORM
-- **Form Handling** with React Hook Form and Zod validation
-- **Date Management** with date-fns
-
-## 🚀 Tech Stack
-
-### Frontend
-- **Framework:** Next.js 15.5.5 with Turbopack
-- **UI Library:** React 19.1.0
-- **Styling:** Tailwind CSS 4
-- **UI Components:** Radix UI, Lucide React
-- **Forms:** React Hook Form with Zod validation
-- **Charts:** Recharts
-- **Notifications:** Sonner
-
-### Backend
-- **Runtime:** Next.js API Routes
-- **Database:** PostgreSQL with Prisma ORM
-- **Authentication:** Clerk
-- **AI Integration:** Google Generative AI
-- **Email:** Resend with React Email
-- **Background Jobs:** Inngest
-- **Security:** Arcjet
-
-### Development
-- **Build Tool:** Turbopack
-- **Linting:** ESLint
-- **Styling:** Tailwind CSS 4 with PostCSS
-
-## 📦 Getting Started
-
-### Prerequisites
-
-- Node.js 18+ 
-- PostgreSQL database
-- Clerk account for authentication
-- Google AI API key (optional, for AI features)
-- Resend account (optional, for email features)
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/adarsh0707-kumar/welth.git
-   cd welth
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Environment Setup**
-   Create a `.env.local` file in the root directory:
-   ```env
-   # Database
-   DATABASE_URL="postgresql://username:password@localhost:5432/welth"
-
-   # Authentication
-   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
-   CLERK_SECRET_KEY=sk_test_...
-
-   # Google AI
-   GOOGLE_GENERATIVE_AI_API_KEY=your_google_ai_key
-
-   # Email
-   RESEND_API_KEY=re_...
-
-   # Arcjet
-   ARCJET_KEY=aj_key_...
-
-   # Inngest
-   INNGEST_SIGNING_KEY=your_signing_key
-   INNGEST_EVENT_KEY=your_event_key
-
-   # Next.js
-   NEXTAUTH_SECRET=your_secret
-   NEXTAUTH_URL=http://localhost:3000
-   ```
-
-4. **Database Setup**
-   ```bash
-   # Generate Prisma client
-   npx prisma generate
-
-   # Push schema to database
-   npx prisma db push
-
-   # Seed database (if available)
-   npx prisma db seed
-   ```
-
-5. **Run the development server**
-   ```bash
-   npm run dev
-   ```
-
-   Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## 🛠️ Available Scripts
-
-- `npm run dev` - Start development server with Turbopack
-- `npm run build` - Build production application with Turbopack
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
-- `npm run email` - Start email development server
-
-## 📁 Project Structure
-
-```
-welth/
-├── app/                    # Next.js 15 app directory
-│   ├── api/               # API routes
-│   ├── (auth)/            # Authentication routes
-│   ├── (dashboard)/       # Main application
-│   └── globals.css        # Global styles
-├── components/            # Reusable components
-│   ├── ui/               # Radix UI components
-│   ├── forms/            # Form components
-│   └── charts/           # Chart components
-├── lib/                  # Utility libraries
-│   ├── db.ts            # Database configuration
-│   ├── utils.ts         # Utility functions
-│   └── validations/     # Zod schemas
-├── prisma/              # Database schema
-│   └── schema.prisma    # Prisma schema
-├── emails/              # React Email templates
-└── public/              # Static assets
-```
-
-## 🔌 API Integration
-
-### Authentication (Clerk)
-The application uses Clerk for authentication with pre-built components and secure session management.
-
-### Database (Prisma)
-Prisma ORM with PostgreSQL for robust data management with type safety.
-
-### AI Features (Google Generative AI)
-- Financial insights and recommendations
-- Spending pattern analysis
-- Personalized financial advice
-
-### Email (Resend)
-- Transaction notifications
-- Weekly financial summaries
-- Account alerts
-
-## 🎨 UI Components
-
-Built with Radix UI primitives and custom Tailwind CSS classes:
-
-- **Form Components:** Input, Select, Checkbox, Date Picker
-- **Feedback Components:** Toast, Progress, Tooltip
-- **Navigation Components:** Dropdown, Dialog, Popover
-- **Layout Components:** Card, Sheet, Progress
-
-## 📊 Database Schema
-
-Key models include:
-- `User` - User profiles and preferences
-- `Account` - Bank and financial accounts
-- `Transaction` - Income and expense records
-- `Category` - Transaction categorization
-- `Budget` - Monthly budgeting
-
-## 🔒 Security Features
-
-- **Authentication:** Clerk with secure session management
-- **Rate Limiting:** Arcjet for API protection
-- **Input Validation:** Zod schemas for all forms
-- **CORS Protection:** Next.js built-in security
-- **Environment Variables:** Secure credential management
-
-## 🚀 Deployment
-
-### Vercel (Recommended)
-1. Connect your GitHub repository to Vercel
-2. Add environment variables in Vercel dashboard
-3. Deploy automatically on git push
-
-### Render (Current)
-The application is currently deployed on Render with automatic deployments from the main branch.
-
-### Environment Variables for Production
-Ensure all environment variables are set in your production environment, including database URLs and API keys.
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-1. **Prisma Client Generation**
-   ```bash
-   npx prisma generate
-   ```
-
-2. **Database Connection**
-   - Verify DATABASE_URL in .env.local
-   - Check PostgreSQL is running
-
-3. **Authentication Issues**
-   - Verify Clerk keys are correct
-   - Check callback URLs in Clerk dashboard
-
-4. **Build Issues**
-   ```bash
-   npm run build
-   # Check for any TypeScript or import errors
-   ```
-
-## 📞 Support
-
-- Create an [issue](https://github.com/adarsh0707-kumar/welth/issues) for bugs and feature requests
-- Check our [documentation](https://github.com/adarsh0707-kumar/welth/wiki) for detailed guides
-
-
-## 👨‍💻 Author
-
-Adarsh Kumar
-
-GitHub: [@adarsh0707-kumar](https://github.com/adarsh0707-kumar)
-
-LinkedIn: [@adarsh-kumar-657315251](https://www.linkedin.com/in/adarsh-kumar-657315251/)
-
-## 🙏 Acknowledgments
-
-- [Next.js](https://nextjs.org/) for the amazing framework
-- [Tailwind CSS](https://tailwindcss.com/) for styling utilities
-- [Radix UI](https://www.radix-ui.com/) for accessible components
-- [Clerk](https://clerk.com/) for authentication
-- [Google AI](https://ai.google.dev/) for generative AI capabilities
+> **Status:** Working deployed application  
+> **Focus:** Personal finance workflows, financial data modeling, scheduled jobs, and AI-assisted insights  
+> **Scope:** Portfolio project; financial information is user-provided and the application is not a regulated financial service.
 
 ---
 
-**⭐ If you find this project helpful, please give it a star on GitHub!**
+## What it implements
 
+### Finance management
+- Income and expense transactions
+- Current and savings accounts
+- Account balances
+- Transaction categories
+- Recurring transactions
+- Monthly budgets
+- Budget usage alerts
+- Transaction history and filtering
+- Financial charts and dashboard views
+
+### Authentication and protection
+- Clerk authentication and session management
+- Protected dashboard, account, and transaction routes
+- Arcjet Shield protection
+- Bot detection
+- Zod validation for application forms
+
+### Automation
+- Inngest scheduled/background functions
+- Recurring-transaction processing
+- Budget alert checks
+- Monthly financial report generation
+- Email delivery through Resend
+
+### AI-assisted insights
+Monthly financial statistics can be sent to Google's Gemini model to generate concise spending insights. If generation fails, the application falls back to predefined guidance.
+
+This is **AI-assisted analysis**, not professional financial advice or automated investment management.
+
+---
+
+## Architecture
+
+~~~text
+                         User
+                          │
+                          ▼
+                 ┌─────────────────┐
+                 │   Next.js App   │
+                 │ React 19 / UI   │
+                 └────────┬────────┘
+                          │
+             ┌────────────┼────────────┐
+             ▼            ▼            ▼
+         Clerk/Auth    Server code   API routes
+                          │
+                          ▼
+                 ┌─────────────────┐
+                 │ Prisma Client   │
+                 └────────┬────────┘
+                          │
+                          ▼
+                    PostgreSQL
+                          │
+              ┌───────────┴───────────┐
+              ▼                       ▼
+        Inngest jobs             Financial data
+              │
+       ┌──────┴─────────┐
+       ▼                ▼
+   Resend email     Gemini insights
+~~~
+
+### Request and automation paths
+
+**Interactive path**
+
+~~~text
+Browser
+  ↓
+Next.js
+  ↓
+Clerk authentication
+  ↓
+Application logic
+  ↓
+Prisma
+  ↓
+PostgreSQL
+~~~
+
+**Background path**
+
+~~~text
+Inngest schedule
+  ↓
+Query financial data
+  ↓
+Budget / recurring / report processing
+  ↓
+Optional Gemini analysis
+  ↓
+Resend email
+~~~
+
+---
+
+## Data model
+
+The Prisma schema currently centers on four models:
+
+| Model | Purpose |
+|---|---|
+| User | Application profile linked to Clerk |
+| Account | User's current/savings financial accounts |
+| Transaction | Income and expense records |
+| Budget | User's budget and alert state |
+
+Transactions support:
+- INCOME / EXPENSE
+- PENDING / COMPLETED / FAILED
+- daily / weekly / monthly / yearly recurrence
+- account association
+- categories
+- optional receipt URLs
+
+The schema includes indexes on user and account relationships for common lookups.
+
+---
+
+## Tech stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16 |
+| UI | React 19 |
+| Styling | Tailwind CSS 4 |
+| Components | Radix UI |
+| Charts | Recharts |
+| Forms | React Hook Form + Zod |
+| Authentication | Clerk |
+| Database | PostgreSQL |
+| ORM | Prisma 6 |
+| Background jobs | Inngest |
+| AI | Google Gemini |
+| Email | Resend + React Email |
+| Protection | Arcjet |
+| Icons | Lucide React |
+| Date utilities | date-fns |
+
+---
+
+## AI workflow
+
+The monthly-report job aggregates a user's previous month's:
+- total income
+- total expenses
+- expense categories
+- transaction count
+
+Those statistics are passed to Gemini with a prompt requesting three concise, actionable insights.
+
+~~~text
+Monthly transactions
+        ↓
+Aggregate income / expenses
+        ↓
+Group expenses by category
+        ↓
+Gemini
+        ↓
+Three text insights
+        ↓
+Monthly email report
+~~~
+
+If the AI request or JSON parsing fails, the implementation returns predefined fallback insights.
+
+**Important:** generated output should be treated as informational. It is not financial, tax, investment, or legal advice.
+
+---
+
+## Background jobs
+
+The Inngest integration currently defines four workflows:
+
+| Workflow | Schedule / trigger |
+|---|---|
+| Budget alerts | Every 6 hours |
+| Recurring transaction trigger | Daily |
+| Individual recurring transaction processing | Event-driven |
+| Monthly financial reports | First day of each month |
+
+The recurring-transaction workflow uses a database transaction for creating the new transaction and updating the account/recurrence state.
+
+---
+
+## Run locally
+
+### Prerequisites
+- Node.js compatible with the current Next.js release
+- npm
+- PostgreSQL
+- Clerk application
+- Optional: Gemini API key
+- Optional: Resend account
+- Optional: Arcjet and Inngest configuration for those integrations
+
+### Setup
+
+~~~bash
+git clone https://github.com/adarsh0707-kumar/welth.git
+cd welth
+npm install
+~~~
+
+Create .env.local with the credentials required by the integrations you intend to use. At minimum, configure the database and Clerk credentials.
+
+~~~env
+DATABASE_URL="postgresql://username:password@localhost:5432/welth"
+DIRECT_URL="postgresql://username:password@localhost:5432/welth"
+
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
+CLERK_SECRET_KEY=sk_test_...
+
+ARCJET_KEY=...
+GEMINI_API_KEY=...
+RESEND_API_KEY=...
+INNGEST_SIGNING_KEY=...
+INNGEST_EVENT_KEY=...
+~~~
+
+Generate the Prisma client and apply the current schema:
+
+~~~bash
+npx prisma generate
+npx prisma db push
+~~~
+
+Start development:
+
+~~~bash
+npm run dev
+~~~
+
+Open http://localhost:3000.
+
+For a production-style local run:
+
+~~~bash
+npm run build
+npm run start
+~~~
+
+---
+
+## Project structure
+
+~~~text
+welth/
+├── app/                  # Next.js routes and application pages
+├── components/           # UI and feature components
+├── actions/              # Server-side application actions
+├── data/                 # Static application data
+├── emails/               # React Email templates
+├── lib/                  # Prisma, Inngest and shared utilities
+├── prisma/
+│   └── schema.prisma     # PostgreSQL data model
+├── public/               # Static assets
+├── middleware.js         # Clerk + Arcjet middleware
+└── package.json
+~~~
+
+---
+
+## Security and data handling
+
+The repository includes:
+- Clerk-based authentication
+- Protected application routes
+- Arcjet Shield
+- Arcjet bot detection
+- Zod-based form validation
+- Prisma-managed database access
+- Environment-based credentials
+
+Security is not equivalent to regulatory compliance. This project does **not** claim PCI, SOC 2, banking, investment-adviser, tax, or other financial-service certification.
+
+For deployment, production secrets should be supplied through the hosting platform's secret-management facilities rather than committed to Git.
+
+---
+
+## Known limitations
+- No bank-account aggregation or automatic transaction import is implemented.
+- No investment portfolio management is implemented.
+- AI output is informational and can be incorrect.
+- The application depends on third-party services for authentication, AI, email, and background execution.
+- There is no formal performance benchmark suite in the repository.
+- Automated test coverage is not documented as a release-quality gate.
+- Background workflows require correctly configured Inngest infrastructure.
+- Production security depends on deployment configuration in addition to application code.
+
+### Engineering note
+
+The repository currently contains a recurring-transaction balance-update path that should be reviewed carefully before production use. The implementation performs the same account-balance increment operation twice in the transaction handler. This README intentionally does not describe recurring transaction processing as production-safe.
+
+---
+
+## Roadmap
+
+### Reliability
+- [ ] Add automated unit/integration tests for financial calculations.
+- [ ] Add end-to-end tests for authentication and transaction flows.
+- [ ] Add idempotency protection to recurring transaction processing.
+- [ ] Fix and regression-test recurring balance updates.
+- [ ] Add observability for scheduled jobs and email delivery.
+
+### Financial data
+- [ ] Add stronger transaction validation and reconciliation rules.
+- [ ] Add import workflows for supported bank/export formats.
+- [ ] Improve budget and recurring-transaction history.
+
+### AI / analytics
+- [ ] Add offline evaluation of generated insights.
+- [ ] Track AI failures and latency.
+- [ ] Add safeguards for malformed or low-quality model output.
+- [ ] Compare rule-based insights with LLM-generated insights.
+
+### Production hardening
+- [ ] Add rate-limit and authorization tests.
+- [ ] Add database migration workflow.
+- [ ] Establish measured performance targets.
+- [ ] Document deployment-specific secret and webhook configuration.
+
+---
+
+## Why this project matters
+
+Welth demonstrates a modern full-stack application with several backend concerns beyond CRUD:
+
+~~~text
+Authentication
+     ↓
+Financial domain model
+     ↓
+PostgreSQL + Prisma
+     ↓
+Scheduled/background workflows
+     ↓
+Email automation
+     ↓
+AI-assisted analysis
+~~~
+
+It is best presented as a **full-stack finance application with backend automation and AI integration**, rather than as a financial-advice product.
+
+---
+
+## License
+
+MIT — see [LICENSE](LICENSE).
